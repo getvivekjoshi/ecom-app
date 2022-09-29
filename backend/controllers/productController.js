@@ -5,29 +5,26 @@ const imageValidate = require("../utils/imageValidate")
 const getProducts = async (req, res, next) => {
   try {
     let query = {};
-    let queryConditon = false;
+    let queryCondition = false;
 
     let priceQueryCondition = {};
     if (req.query.price) {
-      queryConditon = true;
+      queryCondition = true;
       priceQueryCondition = { price: { $lte: Number(req.query.price) } };
     }
-
     let ratingQueryCondition = {};
     if (req.query.rating) {
-      queryConditon = true;
+      queryCondition = true;
       ratingQueryCondition = { rating: { $in: req.query.rating.split(",") } };
     }
-
     let categoryQueryCondition = {};
     const categoryName = req.params.categoryName || "";
     if (categoryName) {
       queryCondition = true;
-      let a = categoryName.replace(",", "/");
+      let a = categoryName.replaceAll(",", "/");
       var regEx = new RegExp("^" + a);
       categoryQueryCondition = { category: regEx };
     }
-
     if (req.query.category) {
       queryCondition = true;
       let a = req.query.category.split(",").map((item) => {
@@ -37,7 +34,6 @@ const getProducts = async (req, res, next) => {
         category: { $in: a },
       };
     }
-
     let attrsQueryCondition = [];
     if (req.query.attrs) {
       // attrs=RAM-1TB-2TB-4TB,color-blue-red
@@ -84,7 +80,7 @@ const getProducts = async (req, res, next) => {
       sort = { score: { $meta: "textScore" } };
     }
 
-    if (queryCondition) {
+  if (queryCondition) {
       query = {
         $and: [
           priceQueryCondition,
@@ -255,7 +251,27 @@ let imageTable = []
  }
 }
 
+const adminDeleteProductImage = async (req, res, next) => {
 
+  try {
+     const imagePath = decodeURIComponent(req.params.imagePath)
+     const path = require("path")
+     const finalPath = path.resolve("../frontend/public") + imagePath
+     const fs = require("fs")
+
+     fs.unlink(finalPath, (err) => {
+      if(err){
+        res.status(500).send(err)
+      }
+     })
+
+     await Product.findByIdAndUpdate({_id:req.params.productId}, {$pull: {images:{path:imagePath}}}).orFail()
+
+     return res.end()
+  } catch (error) {
+    next(error);
+  }
+}
 
 module.exports = {
   getProducts,
@@ -265,5 +281,6 @@ module.exports = {
   admindDeleteProduct,
   admindCreateProduct,
   admindUpdateProduct,
-  adminUpload
+  adminUpload,
+  adminDeleteProductImage
 };
