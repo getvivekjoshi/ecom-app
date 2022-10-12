@@ -4,6 +4,8 @@ const {getProducts, getProductById, getBestSellers, adminGetProducts,
     admindDeleteProduct, admindCreateProduct, admindUpdateProduct, adminUpload, adminDeleteProductImage} = require('../controllers/productController')
 
 
+const {verifyIsLoggedIn, verifyIsAdmin} = require("../middlware/veriffyAuthToken")
+
 router.get("/category/:categoryName/search/:searchQuery", getProducts)
 router.get("/category/:categoryName", getProducts)
 router.get("/search/:searchQuery", getProducts)
@@ -13,6 +15,9 @@ router.get("/get-one/:id", getProductById)
 
 
 //admin-routes
+
+router.use(verifyIsLoggedIn)
+router.use(verifyIsAdmin)
 router.get("/admin", adminGetProducts)
 
 router.delete("/admin/:id", admindDeleteProduct)
