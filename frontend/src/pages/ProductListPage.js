@@ -7,7 +7,9 @@ import RatingFilterComponent from "../components/filterQueryResultOptions/Rating
 import CategoryFilterComponent from "../components/filterQueryResultOptions/CategoryFilterComponent";
 import AttributesFilterComponent from "../components/filterQueryResultOptions/AttributesFilterComponent";
 
-const ProductListPage = () => {
+
+
+const ProductListPage = () => { 
   return (
     <Container fluid>
       <Row>
@@ -21,7 +23,7 @@ const ProductListPage = () => {
               <AttributesFilterComponent />
             </ListGroup.Item>
             <ListGroup.Item>
-              <Button variant="primary">Filter</Button>
+              <Button variant="primary">Filter</Button>{" "}
               <Button variant="danger">Reset Filter</Button>
             </ListGroup.Item>
           </ListGroup>
