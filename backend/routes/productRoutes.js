@@ -1,7 +1,7 @@
 const express = require ('express')
 const router = express.Router()
 const {getProducts, getProductById, getBestSellers, adminGetProducts, 
-    admindDeleteProduct, admindCreateProduct, admindUpdateProduct, adminUpload, adminDeleteProductImage} = require('../controllers/productController')
+    adminDeleteProduct, admindCreateProduct, admindUpdateProduct, adminUpload, adminDeleteProductImage} = require('../controllers/productController')
 
 
 const {verifyIsLoggedIn, verifyIsAdmin} = require("../middlware/veriffyAuthToken")
@@ -20,7 +20,7 @@ router.use(verifyIsLoggedIn)
 router.use(verifyIsAdmin)
 router.get("/admin", adminGetProducts)
 
-router.delete("/admin/:id", admindDeleteProduct)
+router.delete("/admin/:id", adminDeleteProduct)
 router.delete("/admin/image/:imagePath/:productId", adminDeleteProductImage)
 router.put("/admin/:id", admindUpdateProduct)
 

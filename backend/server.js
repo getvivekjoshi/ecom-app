@@ -17,7 +17,6 @@ app.get("/", async (req, res, next) => {
 //mongodb connection
 
 const connectDB = require("./config/db");
-const Product = require("./models/ProductModel");
 connectDB();
 
 app.use("/api", apiRoutes);

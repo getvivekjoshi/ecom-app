@@ -149,12 +149,23 @@ const adminGetProducts = async (req, res, next) => {
   }
 };
 
-const admindDeleteProduct = async (req, res, next) => {
+// const admindDeleteProduct = async (req, res, next) => {
+//   try {
+//     const product = await Product.findById(req.params.id).orFail();
+//     await product.remove();
+//     res.json({ messgage: "Product removed" });
+//   }   
+//   catch (error) {next(error);}
+// };
+
+const adminDeleteProduct = async (req, res, next) => {
   try {
     const product = await Product.findById(req.params.id).orFail();
-    await Product.remove();
-    res.json({ messgage: "Product removed" });
-  } catch (error) {next(error);}
+    await product.remove();
+    res.json({ message: "product removed" });
+  } catch (err) {
+    next(err);
+  }
 };
 
 const admindCreateProduct = async (req, res, next) => {
@@ -279,7 +290,7 @@ module.exports = {
   getProductById,
   getBestSellers,
   adminGetProducts,
-  admindDeleteProduct,
+  adminDeleteProduct,
   admindCreateProduct,
   admindUpdateProduct,
   adminUpload,

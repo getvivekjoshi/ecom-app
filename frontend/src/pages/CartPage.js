@@ -8,9 +8,9 @@ const CartPage = () => {
       <Row className="mt-4">
         <Col md={8}>
           <h1>Shopping Cart</h1>
-          {Array.from({ length: 3 }).map((item) => (
+          {Array.from({ length: 3 }).map((item, idx) => (
             <>
-              <CartItemComponent /> <br />
+              <CartItemComponent item={{image: {path:"/images/tablets-category.png"}, name: "Product name", price:10, count:10, quantity:10}} key={idx} /> <br />
             </>
           ))}
           <Alert variant="info">Your cart is empty</Alert>
