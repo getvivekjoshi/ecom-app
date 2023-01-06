@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Spinner from 'react-bootstrap/Spinner'
 
 
-const LoginPageComponent = ({loginUserApiRequest}) => {
+const LoginPageComponent = ({loginUserApiRequest, reduxDispatch, setUserReduxState}) => {
   const [validated, setValidated] = useState(false);
   const [loginUserResponseSteate, setLoginUserResponseSteate] = useState({success:'', error:'', loading:false})
 
@@ -24,6 +24,10 @@ const navigate = useNavigate()
       setLoginUserResponseSteate({loading:true})
       loginUserApiRequest(email, password, doNotLogout)
       .then((res) => { setLoginUserResponseSteate({success:res.success, loading:false, error:''})
+
+      if(res.userLoggedIn){
+        reduxDispatch(setUserReduxState(res.userLoggedIn))
+      }
     
       if(res.success === 'user logged in' && !res.userLoggedIn.isAdmin){
         navigate("/user", {replace:true})
